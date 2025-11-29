@@ -20,7 +20,8 @@ export default function Home() {
     "analyzing your L portfolio...",
     "finalizing your academic rug pull...",
     "contacting the degen spirits...",
-    "preparing your academic obituary..."
+    "preparing your academic obituary...",
+    "aped into finals szn..."
   ];
 
   const staticResults = [
@@ -102,7 +103,7 @@ export default function Home() {
     { text: "Prof: 'No remedial' → classic rug", gpa: "2.00", img: "/chill_guy_4.png" }
   ];
 
-  const handleSealFate = async () => {
+  const handleSealFate = () => {
     setIsLoading(true);
     setShowResult(false);
     setLoadingTextIndex(0);
@@ -112,44 +113,15 @@ export default function Home() {
       setLoadingTextIndex(prev => (prev + 1) % loadingTexts.length);
     }, 800);
 
-    // Generate random GPA
-    const gpaValues = [
-      (Math.random() * 4.2).toFixed(2),
-      "SKS 144", "DO", "26 SKS", "?"
-    ];
-    const randomGpa = gpaValues[Math.floor(Math.random() * gpaValues.length)];
-
-    try {
-      // Try to get dynamic result from API
-      const response = await fetch('/api/predict', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ gpa: randomGpa })
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setResult({
-          text: data.roast,
-          gpa: randomGpa,
-          img: `/chill_guy_${Math.floor(Math.random() * 12) + 1}.png`
-        });
-      } else {
-        // Fallback to static results
-        const staticResult = staticResults[Math.floor(Math.random() * staticResults.length)];
-        setResult(staticResult);
-      }
-    } catch (error) {
-      // Fallback to static results
-      const staticResult = staticResults[Math.floor(Math.random() * staticResults.length)];
-      setResult(staticResult);
-    }
+    // Get random result from staticResults (quote and GPA always match)
+    const randomResult = staticResults[Math.floor(Math.random() * staticResults.length)];
+    setResult(randomResult);
 
     setTimeout(() => {
       clearInterval(textInterval);
       setIsLoading(false);
       setShowResult(true);
-    }, 2500);
+    }, 4000); // 4 sec loading sesuai data.txt
   };
 
   const handleShareToX = () => {
@@ -178,7 +150,7 @@ export default function Home() {
           </p>
           <button
             onClick={handleSealFate}
-            className="bg-white text-black px-12 py-6 text-2xl md:text-3xl font-black uppercase tracking-wider hover:bg-gray-200 transition-colors transform hover:scale-105 transition-transform"
+            className="bg-white text-black px-12 py-6 text-2xl md:text-3xl font-black uppercase tracking-wider hover:bg-gray-200 transition-all transform hover:scale-105"
           >
             Seal My Fate
           </button>
